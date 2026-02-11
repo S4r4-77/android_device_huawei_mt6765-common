@@ -61,4 +61,5 @@ TW_INCLUDE_CRYPTO := true
 TW_USE_FSCRYPT_POLICY := 2
 
 # Hardware / Modules
-PRODUCT_PACKAGES += libion
+TARGET_RECOVERY_DEVICE_MODULES += libion
+
