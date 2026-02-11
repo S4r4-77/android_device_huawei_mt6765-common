@@ -2,7 +2,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Inherit from your common tree
-$(call inherit-product, device/huawei/mt6765-common/common.mk)
+$(call inherit-product, device/huawei/jakarta/common.mk)
 
 PRODUCT_DEVICE := jakarta
 PRODUCT_NAME := twrp_jakarta
