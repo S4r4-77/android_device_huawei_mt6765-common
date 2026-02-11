@@ -1,6 +1,5 @@
-# Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+# Inherit 32-bit base
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Inherit from your common tree
 $(call inherit-product, device/huawei/mt6765-common/common.mk)
@@ -11,4 +10,8 @@ PRODUCT_BRAND := Huawei
 PRODUCT_MODEL := Y6b
 PRODUCT_MANUFACTURER := huawei
 
-PRODUCT_GMS_CLIENTID_BASE := android-huawei
+# Set Build Fingerprint for Android 10
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    TARGET_DEVICE=jakarta \
+    PRODUCT_NAME=jakarta \
+    PRIVATE_BUILD_DESC="jakarta-user 10 QP1A.190711.020 10.1.0.150 release-keys"
