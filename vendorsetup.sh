@@ -1,2 +1,1 @@
-add_lunch_combo twrp_jakarta-userdebug
-add_lunch_combo twrp_jakarta-eng
+
