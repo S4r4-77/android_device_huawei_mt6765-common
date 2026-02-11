@@ -1,0 +1,32 @@
+/boot           emmc    /dev/block/platform/mtk-msdc.0/by-name/boot           flags=display="Boot";backup=1
+/recovery       emmc    /dev/block/platform/mtk-msdc.0/by-name/recovery       flags=display="Recovery"
+# /recovery_ramdisk, /recovery_vendor → usually not mounted separately in recovery
+
+/cache          ext4    /dev/block/platform/mtk-msdc.0/by-name/cache           flags=display="Cache";backup=1
+
+# Logical partitions inside super (dynamic)
+/system         ext4    /dev/block/platform/mtk-msdc.0/by-name/system         flags=display="System";backup=1;logical
+/vendor         ext4    /dev/block/platform/mtk-msdc.0/by-name/vendor         flags=display="Vendor";backup=1;logical
+/product        ext4    /dev/block/platform/mtk-msdc.0/by-name/product        flags=display="Product";backup=1;logical
+# If your super has these (common on MTK):
+/odm            ext4    /dev/block/platform/mtk-msdc.0/by-name/odm            flags=display="ODM";backup=1;logical
+/system_ext     ext4    /dev/block/platform/mtk-msdc.0/by-name/system_ext     flags=display="System_ext";backup=1;logical
+
+# vbmeta & related (usually read-only, optional to list)
+/vbmeta         emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta         flags=display="Vbmeta"
+/vbmeta_system  emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta_system  flags=display="Vbmeta System"
+/vbmeta_vendor  emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta_vendor  flags=display="Vbmeta Vendor"
+
+/data           ext4    /dev/block/platform/mtk-msdc.0/by-name/userdata       flags=display="Data";encryptable=footer;length=-16384;backup=1
+# Note: userdata is huge (~D36E00000 bytes ≈ 54+ GB), typical for modern devices
+
+# Optional extras from your scatter (mount only if needed)
+/persist        ext4    /dev/block/platform/mtk-msdc.0/by-name/persist        flags=display="Persist"
+/metadata       ext4    /dev/block/platform/mtk-msdc.0/by-name/metadata       flags=display="Metadata"
+/nvdata         ext4    /dev/block/platform/mtk-msdc.0/by-name/nvdata         flags=display="NVRAM Data"
+/preload        ext4    /dev/block/platform/mtk-msdc.0/by-name/preload        flags=display="Preload"
+
+/external_sd    vfat    /dev/block/mmcblk1p1                                    flags=display="Micro SD";storage;removable
+/sdcard1        auto    /dev/block/mmcblk0p1                                    flags=display="SD Card1"
+
+/tmp            tmpfs   tmpfs                                                   flags=display="Ram Disk"
