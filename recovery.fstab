@@ -1,32 +1,30 @@
-/boot           emmc    /dev/block/platform/mtk-msdc.0/by-name/boot           flags=display="Boot";backup=1
-/recovery       emmc    /dev/block/platform/mtk-msdc.0/by-name/recovery       flags=display="Recovery"
-# /recovery_ramdisk, /recovery_vendor → usually not mounted separately in recovery
+# mount point    fstype    device                                               flags
+/boot            emmc      /dev/block/by-name/boot                              flags=display="Boot";backup=1;flashimg=1
+/recovery        emmc      /dev/block/by-name/recovery                          flags=display="Recovery";backup=1;flashimg=1
+/cache           ext4      /dev/block/by-name/cache                             flags=display="Cache"
+/metadata        ext4      /dev/block/by-name/metadata                          flags=display="Metadata"
 
-/cache          ext4    /dev/block/platform/mtk-msdc.0/by-name/cache           flags=display="Cache";backup=1
+# Logical Partitions (Dynamic)
+/system          ext4      system                                               flags=display="System";backup=1;logical
+/vendor          ext4      vendor                                               flags=display="Vendor";backup=1;logical
+/product         ext4      product                                              flags=display="Product";backup=1;logical
+/odm             ext4      odm                                                  flags=display="ODM";backup=1;logical
 
-# Logical partitions inside super (dynamic)
-/system         ext4    /dev/block/platform/mtk-msdc.0/by-name/system         flags=display="System";backup=1;logical
-/vendor         ext4    /dev/block/platform/mtk-msdc.0/by-name/vendor         flags=display="Vendor";backup=1;logical
-/product        ext4    /dev/block/platform/mtk-msdc.0/by-name/product        flags=display="Product";backup=1;logical
-# If your super has these (common on MTK):
-/odm            ext4    /dev/block/platform/mtk-msdc.0/by-name/odm            flags=display="ODM";backup=1;logical
-/system_ext     ext4    /dev/block/platform/mtk-msdc.0/by-name/system_ext     flags=display="System_ext";backup=1;logical
+# Data Partition with FBE Encryption (Android 10 Standard)
+/data            f2fs      /dev/block/by-name/userdata                          flags=fileencryption=aes-256-xts:aes-256-cts:v2;keydirectory=/metadata/vold/metadata_encryption
 
-# vbmeta & related (usually read-only, optional to list)
-/vbmeta         emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta         flags=display="Vbmeta"
-/vbmeta_system  emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta_system  flags=display="Vbmeta System"
-/vbmeta_vendor  emmc    /dev/block/platform/mtk-msdc.0/by-name/vbmeta_vendor  flags=display="Vbmeta Vendor"
+# VBMeta
+/vbmeta          emmc      /dev/block/by-name/vbmeta                             flags=display="VBMeta";backup=1;flashimg=1
+/vbmeta_system   emmc      /dev/block/by-name/vbmeta_system                      flags=display="VBMeta System";backup=1
+/vbmeta_vendor   emmc      /dev/block/by-name/vbmeta_vendor                      flags=display="VBMeta Vendor";backup=1
 
-/data           ext4    /dev/block/platform/mtk-msdc.0/by-name/userdata       flags=display="Data";encryptable=footer;length=-16384;backup=1
-# Note: userdata is huge (~D36E00000 bytes ≈ 54+ GB), typical for modern devices
+# Storage
+/external_sd     vfat      /dev/block/mmcblk1p1    /dev/block/mmcblk1           flags=display="MicroSD";storage;wipeingui;removable
+/usb_otg         vfat      /dev/block/sda1         /dev/block/sda               flags=display="USB-OTG";storage;wipeingui;removable
 
-# Optional extras from your scatter (mount only if needed)
-/persist        ext4    /dev/block/platform/mtk-msdc.0/by-name/persist        flags=display="Persist"
-/metadata       ext4    /dev/block/platform/mtk-msdc.0/by-name/metadata       flags=display="Metadata"
-/nvdata         ext4    /dev/block/platform/mtk-msdc.0/by-name/nvdata         flags=display="NVRAM Data"
-/preload        ext4    /dev/block/platform/mtk-msdc.0/by-name/preload        flags=display="Preload"
-
-/external_sd    vfat    /dev/block/mmcblk1p1                                    flags=display="Micro SD";storage;removable
-/sdcard1        auto    /dev/block/mmcblk0p1                                    flags=display="SD Card1"
-
-/tmp            tmpfs   tmpfs                                                   flags=display="Ram Disk"
+# Critical Huawei/MTK Partitions
+/persist         ext4      /dev/block/by-name/persist                           flags=display="Persist";backup=1
+/nvram           emmc      /dev/block/by-name/nvram                             flags=display="NVRAM";backup=1
+/nvdata          ext4      /dev/block/by-name/nvdata                            flags=display="NVData";backup=1;subpartitionof=/nvram
+/protect_f       ext4      /dev/block/by-name/protect1                          flags=display="Protect_F";backup=1
+/protect_s       ext4      /dev/block/by-name/protect2                          flags=display="Protect_S";backup=1
