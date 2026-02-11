@@ -1,0 +1,32 @@
+DEVICE_PATH := device/huawei/jakarta
+
+# Architecture - 32-bit (ARM)
+TARGET_ARCH := arm
+TARGET_ARCH_VARIANT := armv7-a-neon
+TARGET_CPU_ABI := armeabi-v7a
+TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_VARIANT := generic
+
+# Kernel
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/kernel
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_BOOTIMG_HEADER_VERSION := 2
+
+# Platform
+TARGET_BOARD_PLATFORM := mt6765
+TARGET_BOOTLOADER_BOARD_NAME := jakarta
+
+# TWRP Specific Flags
+TW_THEME := portrait_hdpi
+DEVICE_RESOLUTION := 720x1600
+TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
+TW_MAX_BRIGHTNESS := 255
+TW_DEFAULT_BRIGHTNESS := 162
+TW_EXTRA_LANGUAGES := true
+TW_INCLUDE_NTFS_3G := true
+TW_USE_TOOLBOX := true
+
+# Encryption (Android 10 usually uses FBE)
+TW_INCLUDE_CRYPTO := true
+TW_USE_FSCRYPT_POLICY := 1
